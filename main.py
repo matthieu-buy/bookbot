@@ -1,21 +1,38 @@
 from stats import get_characters_counts
 from stats import get_num_words
+from stats import order_list_of_characters
 
 
-def get_book_text(path_to_file) :
+def get_book_text(path_to_file :str) :
     with open(path_to_file) as f:
         file_contents = f.read()
     return file_contents # list
 
 
+def print_report(book_path :str, num_words :int, characters_list :list) :
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {book_path}...")
+    print("----------- Word Count ----------")
+    print(f"Found {num_words} total words")
+
+    print("----------- Character Count ----------")
+    for item in characters_list : #item is a dictionnary
+        if item["char"].isalpha() :
+            print(f"{item["char"]}: {item["num"]}")
+    print("============= END ===============")
+
+
 ###################
 
 def main() :
-    text = get_book_text("/Users/matthieubuy/bookbot/bookbot/books/frankenstein.txt")
-    num_words = get_num_words(text) # type: ignore
-    characters = get_characters_counts(text)
-    print(f"{num_words} words found in the document")
-    print(characters)
+    book_path = "books/frankenstein.txt"
+    text = get_book_text(book_path)
+    num_words = get_num_words(text)
+    chars_dict = get_characters_counts(text)
+    chars_sorted_list = order_list_of_characters(chars_dict)
+    print_report(book_path, num_words, chars_sorted_list)
+
+
 
 main()
 
